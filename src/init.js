@@ -1,12 +1,14 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import onChange from 'on-change';
-import { setLocale } from 'yup';
-import * as yup from 'yup';
+// import onChange from 'on-change';
+// import { setLocale } from 'yup';
+// import * as yup from 'yup';
 import i18next from 'i18next';
 import ru from './locales/ru';
+import watchState from './watch';
+import app from './app';
 
-setLocale({
+/** setLocale({
   string: {
     url: 'errorUlr',
   },
@@ -77,7 +79,16 @@ const app = () => {
   });
 };
 // https://ru.hexlet.io/lessons.rss
+*/
 const runApp = () => {
+  const state = {
+    inputUrl: '',
+    feeds: [],
+    posts: [],
+    validate: null,
+    textError: '',
+  };
+
   i18next.init({
     lng: 'ru',
     debug: true,
@@ -85,7 +96,7 @@ const runApp = () => {
       ru,
     },
   }).then(() => {
-    app();
+    app(state, watchState(state));
   });
 };
 export default runApp;
