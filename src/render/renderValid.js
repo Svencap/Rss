@@ -12,7 +12,6 @@ const renderValid = (state, value) => {
     validateParagh.classList.add('text-success');
   } else {
     input.classList.add('is-invalid');
-    input.value = '';
     validateParagh.textContent = state.textError;
     validateParagh.classList.remove('text-success');
     validateParagh.classList.add('text-danger');

@@ -2,6 +2,8 @@
 import { setLocale } from 'yup';
 import * as yup from 'yup';
 import i18next from 'i18next';
+// import axios from 'axios';
+// import { date } from 'yup';
 
 setLocale({
   string: {
@@ -13,10 +15,7 @@ const schema = yup.object().shape({
     .string()
     .url()
     .required()
-    // Изменить регулярку
     .test('url', 'invalidRss', (value) => value.match(/.rss$/)),
-  // Придумать как протестировать функцию на дубликаты
-// .test('url', 'duplicateUrl', (value) => state.posts.includes(value))
 });
 
 const app = (state, watchState) => {
@@ -35,14 +34,27 @@ const app = (state, watchState) => {
         url: state.inputUrl,
       })
       .then((valid) => {
-        watchState.validate = 'valid';
-        watchState.textError = '';
-        watchState.posts = [valid.url, ...state.posts];
+        if (!state.posts.includes(valid.url)) {
+          watchState.validate = 'valid';
+          watchState.textError = '';
+          watchState.posts = [valid.url, ...state.posts];
+        } else {
+          watchState.textError = i18next.t('duplicateUrl');
+          watchState.validate = 'invalid';
+        }
       })
       .catch((error) => {
         console.log(error.message);
         watchState.textError = i18next.t(error.message);
         watchState.validate = 'invalid';
+      });
+    fetch(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent('http://lorem-rss.herokuapp.com/feed')}&disableCache=true
+)`)
+      .then((res) => res.json())
+      .then((data) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'application/xml');
+        console.log(doc);
       });
   });
 };
