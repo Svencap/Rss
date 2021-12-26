@@ -8,6 +8,6 @@ parserOptions:
 rules: 
   no-console: 0
   import/extensions: 0
-  allowSingleLine: 0 
+  brace-style: stroustrup
 ignorePatterns: 
   - dist
