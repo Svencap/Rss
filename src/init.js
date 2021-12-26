@@ -82,11 +82,13 @@ const app = () => {
 */
 const runApp = () => {
   const state = {
-    inputUrl: '',
-    feeds: [],
-    posts: [],
-    validate: null,
-    textError: '',
+    form: {
+      inputUrl: '',
+      feeds: [],
+      posts: [],
+      error: '',
+    },
+    validateForm: null,
   };
 
   i18next.init({
