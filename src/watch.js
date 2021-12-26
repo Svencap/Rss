@@ -5,13 +5,18 @@ import renderValid from './render/renderValid';
 const watchState = (state) => onChange(state, (path, value) => {
   // const input = document.querySelector('input');
   // const validateParagh = document.querySelector('.feedback');
-  console.log(state);
   switch (path) {
-    case 'validate':
-      renderValid(state, value);
+    case 'form.inputUrl':
+      break;
+    case 'validateForm':
+      renderValid(state, path, value);
+      break;
+    case 'form.error':
+      renderValid(state, path, value);
       break;
     default:
       console.log('123');
+      break;
   }
 });
 export default watchState;
