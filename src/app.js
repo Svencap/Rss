@@ -38,8 +38,7 @@ const app = (state, watchState) => {
             const type = res.data.status.content_type.substring(0, res.data.status.content_type.indexOf(';'));
             if (type === 'text/html') {
               watchState.form.error = i18next.t('invalidRss');
-            }
-            else watchState.validateForm = 'is-valid';
+            } else watchState.validateForm = 'is-valid';
           });
       })
       .catch((error) => {
