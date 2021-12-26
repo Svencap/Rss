@@ -2,8 +2,10 @@
 import { setLocale } from 'yup';
 import * as yup from 'yup';
 import i18next from 'i18next';
+import axios from 'axios';
 // import axios from 'axios';
 // import { date } from 'yup';
+import parserDom from './DOMparser';
 
 setLocale({
   string: {
@@ -14,8 +16,7 @@ const schema = yup.object().shape({
   url: yup
     .string()
     .url()
-    .required()
-    .test('url', 'invalidRss', (value) => value.match(/.rss$/)),
+    .required(),
 });
 
 const app = (state, watchState) => {
@@ -24,16 +25,35 @@ const app = (state, watchState) => {
 
   input.addEventListener('change', (e) => {
     e.preventDefault();
-    watchState.inputUrl = e.target.value;
+    watchState.form.inputUrl = e.target.value;
   });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     schema
       .validate({
-        url: state.inputUrl,
+        url: state.form.inputUrl,
       })
-      .then((valid) => {
+      .then((data) => {
+        axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(`${data.url}`)}&disableCache=true)`)
+          .then((res) => {
+            const type = res.data.status.content_type.substring(0, res.data.status.content_type.indexOf(';'));
+            if (type === 'text/html') {
+              watchState.form.error = i18next.t('invalidRss');
+            }
+            else watchState.validateForm = 'is-valid';
+          });
+      })
+      .catch((error) => {
+        watchState.form.error = i18next.t(error.message);
+      });
+  });
+};
+export default app;
+
+/**
+ *       .then((valid) => {
+        console.log(valid);
         if (!state.posts.includes(valid.url)) {
           watchState.validate = 'valid';
           watchState.textError = '';
@@ -48,14 +68,4 @@ const app = (state, watchState) => {
         watchState.textError = i18next.t(error.message);
         watchState.validate = 'invalid';
       });
-    fetch(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent('http://lorem-rss.herokuapp.com/feed')}&disableCache=true
-)`)
-      .then((res) => res.json())
-      .then((data) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'application/xml');
-        console.log(doc);
-      });
-  });
-};
-export default app;
+ */
