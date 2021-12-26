@@ -3,9 +3,7 @@ import { setLocale } from 'yup';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
-// import axios from 'axios';
-// import { date } from 'yup';
-import parserDom from './DOMparser';
+// import parserDom from './DOMparser';
 
 setLocale({
   string: {
