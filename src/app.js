@@ -17,16 +17,13 @@ const schema = yup.object().shape({
     .url()
     .required(),
 });
-
 const app = (state, watchState) => {
   const form = document.querySelector('form');
   const input = document.querySelector('input');
-
   input.addEventListener('change', (e) => {
     e.preventDefault();
     watchState.form.inputUrl = e.target.value;
   });
-
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     schema
@@ -53,22 +50,3 @@ const app = (state, watchState) => {
   });
 };
 export default app;
-
-/**
- *       .then((valid) => {
-        console.log(valid);
-        if (!state.posts.includes(valid.url)) {
-          watchState.validate = 'valid';
-          watchState.textError = '';
-          watchState.posts = [valid.url, ...state.posts];
-        } else {
-          watchState.textError = i18next.t('duplicateUrl');
-          watchState.validate = 'invalid';
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        watchState.textError = i18next.t(error.message);
-        watchState.validate = 'invalid';
-      });
- */
