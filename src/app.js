@@ -3,7 +3,8 @@ import { setLocale } from 'yup';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
-// import parserDom from './DOMparser';
+// import uniqueId from 'lodash';
+import parserDom from './DOMparser';
 
 setLocale({
   string: {
@@ -38,7 +39,12 @@ const app = (state, watchState) => {
             const type = res.data.status.content_type.substring(0, res.data.status.content_type.indexOf(';'));
             if (type === 'text/html') {
               watchState.form.error = i18next.t('invalidRss');
-            } else watchState.validateForm = 'is-valid';
+            } else {
+              const parse = parserDom(res.data.contents);
+              watchState.validateForm = 'is-valid';
+              watchState.form.posts = [...state.form.posts, ...parse.posts];
+              watchState.form.feeds = [...state.form.feeds, ...parse.feeds];
+            }
           });
       })
       .catch((error) => {
