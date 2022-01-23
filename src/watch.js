@@ -3,6 +3,7 @@ import onChange from 'on-change';
 import renderValid from './render/renderValid';
 import renderFeeds from './render/renderFeeds';
 import renderPost from './render/renderPost';
+import request from './render/axiosTimeout';
 
 const watchState = (state) => onChange(state, (path, value) => {
   // const input = document.querySelector('input');
@@ -22,27 +23,13 @@ const watchState = (state) => onChange(state, (path, value) => {
     case 'form.feeds':
       renderFeeds(value);
       break;
+    case 'form.rssLinks':
+      request(state, value);
+      // console.log('Добавилась ссылка в state');
+      break;
     default:
       console.log('123');
       break;
   }
 });
 export default watchState;
-
-/**
-  if (path === 'validate') {
-    if (value === 'invalid') {
-      input.classList.add('is-invalid');
-      input.value = '';
-      validateParagh.textContent = state.textError;
-      validateParagh.classList.remove('text-success');
-      validateParagh.classList.add('text-danger');
-    } else {
-      input.classList.remove('is-invalid');
-      input.value = '';
-      validateParagh.textContent = i18next.t('isValid');
-      validateParagh.classList.remove('text-danger');
-      validateParagh.classList.add('text-success');
-    }
-  }
- */
