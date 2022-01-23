@@ -1,9 +1,7 @@
-import { uniqueId } from 'lodash';
-
 const parserDom = (content) => {
   const result = {
-    posts: [],
-    feeds: [],
+    postsParse: [],
+    feedParse: null,
   };
   const parser = new DOMParser();
   const doc = parser.parseFromString(content, 'application/xml');
@@ -15,11 +13,15 @@ const parserDom = (content) => {
     const linkFeed = item.querySelector('link').textContent;
     const titleFeed = item.querySelector('title').textContent;
     const descriptionFeed = item.querySelector('description').textContent;
-    return { title: titleFeed, description: descriptionFeed, link: linkFeed };
+    return {
+      title: titleFeed,
+      description: descriptionFeed,
+      link: linkFeed,
+    };
   });
 
-  result.posts = [...posts];
-  result.feeds.push({ id: uniqueId(), title: feedTitle, description: feedDescription });
+  result.postsParse = [...posts];
+  result.feedParse = { title: feedTitle, description: feedDescription };
   return result;
 };
 export default parserDom;
