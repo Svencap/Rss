@@ -3,7 +3,6 @@ import onChange from 'on-change';
 import renderValid from './render/renderValid';
 import renderFeeds from './render/renderFeeds';
 import renderPost from './render/renderPost';
-import request from './render/axiosTimeout';
 
 const watchState = (state) => onChange(state, (path, value) => {
   // const input = document.querySelector('input');
@@ -24,8 +23,8 @@ const watchState = (state) => onChange(state, (path, value) => {
       renderFeeds(value);
       break;
     case 'form.rssLinks':
-      request(state, value);
-      // console.log('Добавилась ссылка в state');
+      // request(state, value);
+      console.log('Добавилась ссылка в state');
       break;
     default:
       console.log('123');
