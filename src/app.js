@@ -5,6 +5,7 @@ import i18next from 'i18next';
 import axios from 'axios';
 // import uniqueId from 'lodash';
 import parserDom from './DOMparser';
+import generatedId from './generatedID';
 
 setLocale({
   string: {
@@ -20,7 +21,7 @@ const schema = yup.object().shape({
 const app = (state, watchState) => {
   const form = document.querySelector('form');
   const input = document.querySelector('input');
-  input.addEventListener('change', (e) => {
+  input.addEventListener('input', (e) => {
     e.preventDefault();
     watchState.form.inputUrl = e.target.value;
   });
@@ -33,18 +34,22 @@ const app = (state, watchState) => {
       .then((data) => {
         axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(`${data.url}`)}&disableCache=true)`)
           .then((res) => {
+            // console.log(res.config.url);
             const type = res.data.status.content_type.substring(0, res.data.status.content_type.indexOf(';'));
             if (type === 'text/html') {
+              watchState.validateForm = 'is-invalid';
               watchState.form.error = i18next.t('invalidRss');
             } else {
-              const parse = parserDom(res.data.contents);
+              const parse = parserDom(res.data.contents, state);
               watchState.validateForm = 'is-valid';
-              watchState.form.posts = [...state.form.posts, ...parse.posts];
-              watchState.form.feeds = [...state.form.feeds, ...parse.feeds];
+              watchState.form.posts = generatedId([...parse.postsParse, ...state.form.posts]);
+              watchState.form.feeds = [parse.feedParse, ...state.form.feeds];
+              watchState.form.rssLinks = [res.config.url, ...state.form.rssLinks];
             }
           });
       })
       .catch((error) => {
+        watchState.validateForm = 'is-invalid';
         watchState.form.error = i18next.t(error.message);
       });
   });

@@ -86,6 +86,7 @@ const runApp = () => {
       inputUrl: '',
       feeds: [],
       posts: [],
+      rssLinks: [],
       error: '',
     },
     validateForm: null,
