@@ -46,12 +46,11 @@ const app = (state, watchState) => {
               watchState.form.rssLinks = [res.config.url, ...state.form.rssLinks];
               const buttonView = document.querySelectorAll('[data-bs-toggle=modal]');
               buttonView.forEach((button) => {
-                button.addEventListener('click', (e) => {
-                  console.log(e);
-                  const currentEl = state.form.posts.find(({ id }) => id === e.target.id);
+                button.addEventListener('click', (event) => {
+                  const currentEl = state.form.posts.find(({ id }) => id === event.target.id);
                   watchState.form.currentPost = currentEl;
                 });
-              })
+              });
             }
           });
       })
@@ -62,13 +61,3 @@ const app = (state, watchState) => {
   });
 };
 export default app;
-
-/**
-              const buttonView = document.querySelectorAll('[data-bs-toggle=modal]');
-              buttonView.forEach((button) => {
-                button.addEventListener('click', (e) => {
-                  console.log(e);
-                  const currentEl = state.form.posts.find(({ id }) => id === e.target.id);
-                  watchState.form.currentPost = currentEl;
-                });
- */
