@@ -34,7 +34,6 @@ const app = (state, watchState) => {
       .then((data) => {
         axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(`${data.url}`)}&disableCache=true)`)
           .then((res) => {
-            // console.log(res.config.url);
             const type = res.data.status.content_type.substring(0, res.data.status.content_type.indexOf(';'));
             if (type === 'text/html') {
               watchState.validateForm = 'is-invalid';
@@ -45,6 +44,14 @@ const app = (state, watchState) => {
               watchState.form.posts = generatedId([...parse.postsParse, ...state.form.posts]);
               watchState.form.feeds = [parse.feedParse, ...state.form.feeds];
               watchState.form.rssLinks = [res.config.url, ...state.form.rssLinks];
+              const buttonView = document.querySelectorAll('[data-bs-toggle=modal]');
+              buttonView.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                  console.log(e);
+                  const currentEl = state.form.posts.find(({ id }) => id === e.target.id);
+                  watchState.form.currentPost = currentEl;
+                });
+              })
             }
           });
       })
@@ -55,3 +62,13 @@ const app = (state, watchState) => {
   });
 };
 export default app;
+
+/**
+              const buttonView = document.querySelectorAll('[data-bs-toggle=modal]');
+              buttonView.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                  console.log(e);
+                  const currentEl = state.form.posts.find(({ id }) => id === e.target.id);
+                  watchState.form.currentPost = currentEl;
+                });
+ */
