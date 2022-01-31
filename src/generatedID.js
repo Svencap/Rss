@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { uniqueId } from 'lodash';
 
 const generatedId = (data) => {
@@ -8,7 +7,6 @@ const generatedId = (data) => {
     }
     return item;
   });
-  console.log(result);
   return result;
 };
 export default generatedId;
