@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import _ from 'lodash';
 import renderPost from './renderPost';
@@ -6,7 +7,6 @@ import generatedId from '../generatedID';
 import renderModal from './renderModal';
 
 const isEqual = (obj1, obj2) => obj1.title === obj2.title;
-
 
 const request = (state, rssLinks) => {
   setTimeout(() => {
@@ -24,7 +24,7 @@ const request = (state, rssLinks) => {
               state.form.currentPost = currentEl;
               renderModal(state.form.currentPost);
             });
-          })
+          });
         })
         .catch((error) => console.log(error));
     });
