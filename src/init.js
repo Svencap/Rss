@@ -88,6 +88,7 @@ const runApp = () => {
       posts: [],
       rssLinks: [],
       error: '',
+      currentPost: null,
     },
     validateForm: null,
   };
