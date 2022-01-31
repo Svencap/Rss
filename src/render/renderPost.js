@@ -12,7 +12,3 @@ const renderPost = (posts) => {
   return postDiv;
 };
 export default renderPost;
-
-/**
-<button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Просмотр</button>
- */
