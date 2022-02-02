@@ -27,6 +27,10 @@ const app = (state, watchState) => {
   });
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (state.form.rssLinks.includes(state.form.inputUrl)) {
+      watchState.form.error = i18next.t('duplicateUrl');
+      return;
+    }
     schema
       .validate({
         url: state.form.inputUrl,
@@ -39,14 +43,15 @@ const app = (state, watchState) => {
               watchState.validateForm = 'is-invalid';
               watchState.form.error = i18next.t('invalidRss');
             } else {
-              const parse = parserDom(res.data.contents, state);
+              const parse = parserDom(res.data.contents);
               watchState.validateForm = 'is-valid';
               watchState.form.posts = generatedId([...parse.postsParse, ...state.form.posts]);
               watchState.form.feeds = [parse.feedParse, ...state.form.feeds];
-              watchState.form.rssLinks = [res.config.url, ...state.form.rssLinks];
+              watchState.form.rssLinks = [res.data.status.url, ...state.form.rssLinks];
               const buttonView = document.querySelectorAll('[data-bs-toggle=modal]');
               buttonView.forEach((button) => {
                 button.addEventListener('click', (event) => {
+                  event.preventDefault();
                   const currentEl = state.form.posts.find(({ id }) => id === event.target.id);
                   watchState.form.currentPost = currentEl;
                 });
