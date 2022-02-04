@@ -5,6 +5,7 @@ import renderFeeds from './render/renderFeeds';
 import renderPost from './render/renderPost';
 import request from './render/axiosTimeout';
 import renderModal from './render/renderModal';
+import renderReadRss from './render/renderReadRss';
 
 const watchState = (state) => onChange(state, (path, value) => {
   switch (path) {
@@ -28,9 +29,11 @@ const watchState = (state) => onChange(state, (path, value) => {
     case 'form.currentPost':
       renderModal(value);
       break;
-    default:
-      console.log('123');
+    case 'form.readRss':
+      renderReadRss(value);
       break;
+    default:
+      throw Error('Bobo))');
   }
 });
 export default watchState;
