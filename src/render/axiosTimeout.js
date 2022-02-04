@@ -29,6 +29,15 @@ const request = (state, rssLinks) => {
               renderReadRss(state.form.readRss);
             });
           });
+          const linksView = document.querySelectorAll('.fw-bold');
+          linksView.forEach((linkView) => {
+            linkView.addEventListener('click', (event) => {
+              const currentEl = state.form.posts.find(({ id }) => id === event.target.id);
+              state.form.currentPost = currentEl;
+              state.form.readRss = [currentEl, ...state.form.readRss];
+              renderReadRss(state.form.readRss);
+            });
+          });
         })
         .catch((error) => console.log(error));
     });
