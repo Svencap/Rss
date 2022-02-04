@@ -54,6 +54,15 @@ const app = (state, watchState) => {
                   event.preventDefault();
                   const currentEl = state.form.posts.find(({ id }) => id === event.target.id);
                   watchState.form.currentPost = currentEl;
+                  watchState.form.readRss = [currentEl, ...state.form.readRss];
+                });
+              });
+              const linksView = document.querySelectorAll('.fw-bold');
+              linksView.forEach((link) => {
+                link.addEventListener('click', (event) => {
+                  const currentEl = state.form.posts.find(({ id }) => id === event.target.id);
+                  watchState.form.currentPost = currentEl;
+                  watchState.form.readRss = [currentEl, ...state.form.readRss];
                 });
               });
             }
