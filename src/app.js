@@ -66,6 +66,17 @@ const app = (state, watchState) => {
                 });
               });
             }
+          })
+          .catch((errorNetwork) => {
+            console.log(errorNetwork.message);
+            if (errorNetwork.message === "Cannot read properties of null (reading 'textContent')") {
+              watchState.validateForm = 'is-invalid';
+              watchState.form.error = i18next.t('invalidRss');
+            }
+            if (errorNetwork.message === 'Network Error') {
+              watchState.validateForm = 'is-invalid';
+              watchState.form.error = i18next.t('netWorkError');
+            }
           });
       })
       .catch((error) => {
