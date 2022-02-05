@@ -1,8 +1,8 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 // import onChange from 'on-change';
 // import { setLocale } from 'yup';
 // import * as yup from 'yup';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import i18next from 'i18next';
 import ru from './locales/ru';
 import watchState from './watch';
