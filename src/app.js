@@ -3,7 +3,6 @@ import { setLocale } from 'yup';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
-// import uniqueId from 'lodash';
 import parserDom from './DOMparser';
 import generatedId from './generatedID';
 
@@ -36,11 +35,9 @@ const app = (state, watchState) => {
         url: state.form.inputUrl,
       })
       .then((data) => {
-        axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(`${data.url}`)}&disableCache=true)`)
+        axios.get(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(`${data.url}`)}&disableCache=true)`)
           .then((res) => {
-            console.log(res);
             const parse = parserDom(res.data.contents);
-            console.log(parse);
             watchState.validateForm = 'is-valid';
             watchState.form.posts = generatedId([...parse.postsParse, ...state.form.posts]);
             watchState.form.feeds = [parse.feedParse, ...state.form.feeds];
